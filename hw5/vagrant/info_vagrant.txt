@@ -1,0 +1,27 @@
+-history-
+mkdir vagrant_machine
+cd vagrant_machine
+
+touch Vagrant
+(add preconfigure)
+(ip: "192.168.56.101" due to "VBoxManage: error: Code E_ACCESSDENIED (0x80070005)")
+
+touch peovision.sh
+(add script)
+
+touch index.html
+(add greatings)
+
+vagrant validate
+vagrant up
+vagrant status
+vagrant ssh
+
+hostname -I
+visit 192.168.56.101:80 - from host machine
+
+(relocate root folder of nginx to original folder - to open index.html of nginx)
+visit 192.168.56.101:80 - from host machine
+
+logout (from vagrant vm)
+vagrant destroy

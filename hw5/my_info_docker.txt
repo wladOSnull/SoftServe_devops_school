@@ -1,0 +1,42 @@
+-general-
+sudo docker run hello-world (small testing image
+docker images -a (show all
+
+docker ps (currently running
+docker ps -a (history of running
+
+docker run -it ubuntu
+
+##### 
+
+docker run -it --rm -d -p 8080:80 --name web nginx
+visit localhost:8080 from host
+docker stop web
+
+cd ~/Documents/hw5/docker0
+touch index.html
+(add info)
+docker run -it --rm -d -p 8080:80 --name "name_of_container" -v ~/Documents/hw5/docker0:/usr/share/nginx/html nginx
+visit localhost:8080 from host
+docker stop web
+
+#####
+
+touch index.html
+(add info)
+touch Dockerfile
+(add 
+FROM nginx:latest
+COPY ./index.html /usr/share/nginx/html/index.html
+)
+docker build -t "name_of_custom_image" .
+
+docker run -it --rm -d -p 8080:80 --name "name_of_container" "name_of_custom_image"
+visit localhost:8080 from host
+docker stop web
+
+#####
+
+docker-compose exec "name_of_service" /bin/bash -(for interactive mode
+docker exec -ti "name_of_service" sh
+

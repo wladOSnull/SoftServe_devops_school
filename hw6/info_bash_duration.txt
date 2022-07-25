@@ -1,0 +1,7 @@
+##### ##### shell script ##### #####
+
+touch bash_duration.sh
+nano bash_duration.sh
+chmod u+x bash_duration.sh
+
+./bash_duration.sh

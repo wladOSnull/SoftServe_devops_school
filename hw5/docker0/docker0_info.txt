@@ -1,0 +1,16 @@
+##### ##### hw5.0 ##### #####
+
+install docker
+
+docker version
+fix sock error: permision denied
+docker version
+
+docker run hello-world -(small image for test Docker
+docker images
+docker run ubuntu -(pull and run
+
+docker run -it --tty ubuntu bash -(run ubuntu interactively with 1 procces - bash
+ls, cd, ps aux ...
+echo "hello Vladyslav Boreiko"
+exit

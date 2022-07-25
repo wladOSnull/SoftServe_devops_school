@@ -1,0 +1,78 @@
+---
+- hosts: all
+  become: yes
+  become_method: sudo
+
+  tasks:
+
+# preset
+  - name: update apt cache + make sure specified apps are installed
+    apt:
+      name: "{{ item }}"
+      update_cache: yes
+    loop:
+      - nginx
+      - git
+      - php7.4-fpm
+      - php-mysql
+      - mariadb-server
+      - python3-pip
+      
+  - name: install lib for mysql
+    pip:
+      name: pymysql
+      state: present
+
+# nginx  
+  - name: add configuration file for Nginx
+    template: 
+     src: default.conf 
+     dest: "/etc/nginx/conf.d/"
+
+  - name: remove link on default configuration file
+    ansible.builtin.file:
+     path: /etc/nginx/sites-enabled/default
+     state: absent
+
+  - name: restart nginx
+    ansible.builtin.service:
+     name: nginx
+     state: restarted
+
+  - name: restart php
+    ansible.builtin.service:
+     name: php7.4-fpm
+     state: restarted
+
+# project
+  - name: get project
+    ansible.builtin.git:
+     repo: 'https://github.com/mentorchita/Blood-Bank-Management-System.git'
+     dest: /var/www/html/project1
+     clone: yes
+     update: yes
+
+# DB
+  - name: create a new database
+    community.mysql.mysql_db:
+      login_unix_socket: /var/run/mysqld/mysqld.sock
+      name: bloodbank
+      state: present
+
+  - name: restore database
+    community.mysql.mysql_db:
+      login_unix_socket: /var/run/mysqld/mysqld.sock
+      name: bloodbank
+      state: import
+      target: /var/www/html/project1/sql/bloodbank.sql
+      
+# DB recreate root user
+  - name: recreate root user for connection.php
+    community.mysql.mysql_query:
+      login_unix_socket: /var/run/mysqld/mysqld.sock
+      login_db: mysql
+      query:
+      - DROP USER 'root'@'localhost'
+      - CREATE USER 'root'@'%' IDENTIFIED BY ''
+      - GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION
+      - FLUSH PRIVILEGES

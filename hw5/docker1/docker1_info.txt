@@ -1,0 +1,33 @@
+##### ##### hw5.* ##### #####
+
+docker run -it --rm -d -p 8080:80 --name web nginx
+visit localhost:8080 from host
+docker stop web
+
+#####
+
+cd ~/Documents/hw5/docker0
+touch index.html
+(add info)
+docker run -it --rm -d -p 8080:80 --name web -v ~/Documents/hw5/docker0:/usr/share/nginx/html nginx
+visit localhost:8080 from host
+docker stop web
+
+#####
+
+nano index.html
+(added small changes to HTML file)
+
+touch Dockerfile
+(add:
+FROM nginx:latest
+COPY ./index.html /usr/share/nginx/html/index.html
+)
+
+docker build -t "name_of_custom_image" .
+
+docker run -it --rm -d -p 8080:80 --name "name_of_container" "name_of_custom_image"
+visit localhost:8080 from host
+docker stop "name_of_container"
+
+docker save nginx_my_simple_version:latest | gzip > nginx_my_simple_version.tar.gz

@@ -1,0 +1,82 @@
+##### ##### on hostmachine ##### #####
+
+sudo apt install ansible
+ansible --version
+ansible-galaxy collection install community.mysql -(for remote managing MariaDB on AWS instance 
+
+##### ##### create new SSH key pait for AWS ##### #####
+
+----- on host cli -----
+mkdir -p hw9/{keys, ansible} && cd hw9/keys
+ssh-keygen -t rsa -b 2048 
+### write path to folder where key pair will be save and their name "aws_key"
+### skip passphrase ! x2
+
+##### ##### terraform - deploy instance ##### #####
+### in folder "hw9"
+
+touch main.tf
+### add contents
+### check all keys !
+
+terraform init
+terraform plan -out=plan
+terraform apply plan
+
+##### ##### connect to instance ##### #####
+
+----- on AWS profile -----
+visit EC2 > Instances
+select running instance with id from cli output
+visit Connect > SSH client
+copy "Example" of connecting via SSH
+
+----- on cli -----
+ssh -i "aws_key" ubuntu@ec?-??-???-?-??.eu-central-1.compute.amazonaws.com ### something like that
+### !!! delete .pem extention after "aws_key" !
+
+### input "yes" for "Are you sure you want to continue connecting (yes/no/[fingerprint])?"
+### done
+### now we have access to instance from hosts cli
+
+##### ##### Ansible ###### ######
+### in folder "hw9/ansible"
+
+touch main.yaml
+### add contents
+
+touch hosts
+### add credentials for ansible: ""Example" of connecting via SSH" from istance page on AWS profile
+
+touch default.conf
+### add configuration for nginx, this file will be uploaded to instance
+
+touch ansible.cfg
+### add configuration for ansible (private key, inventory ...)
+
+ansible-playbook main.yaml
+
+##### ##### full auto Terraform+Ansible ##### #####
+
+terraform destroy
+### input yes
+
+touch full-auto.sh
+### add contents
+chmode u+x ./full-auto.sh
+
+##### ##### ##### ##### #####
+##### ##### ##### ##### #####
+##### ##### ##### ##### #####
+
+### as a result, to deploy hw9:
+
+cd hw9
+### necessary files: main.yaml, ansible.cfg, default.conf, aws_key, aws_key.pub, full-auto.sh, main.tf
+
+./full-auto.sh
+
+### enjoy))0
+### there will be output with: URL of project on AWS instance + SSH connection sring
+
+terraform destroy

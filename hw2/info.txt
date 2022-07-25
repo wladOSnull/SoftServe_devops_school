@@ -1,0 +1,33 @@
+затупив, використав ubuntu desktop
+
+на першому фото простий локальний варіант сайту (сервер + директорія сайту + БД - на ubuntu)
+
+на наступних фото результат згідно завдання: ubuntu - apache+php, centos - DB, windows - client
+
+приблизно по пунктах шо робив:
+
+VM Box Network settings for vm:
+setup Host Network Manager
+ubuntu desktop - only host adapter
+centos 7 - only host adapter
+
+ubuntu - apache+php+phpmyadmin
+centos - mysql-server
+
+centos - create database "bloodbank", import dump
+centos - changed/add bind-address (127.0.0.1) in my.cnf file - deprecated for new versions mysql-server
+centos - add 'root'@'%' user and his password (password have to be according to mysql rules OR just disable mysql rule for password format)
+centos - temporary open mysql port 3306 (firewall-cmd --add-port=3306/tcp)
+
+ubuntu - link to /var/www/html/ phpmyadmin and site folders
+
+ubuntu/centos - ifconfig (to get ip)
+windows - ipconfig (to get ip)
+
+windows/centos/ubuntu - ping centos_ip / ping ubuntu_ip / ping windows_ip : all these commands on all machines (for checking accessibility of each to other)
+
+ubuntu - edit connection.php file in site project ($servername - centos ip; $password - centos 'root'@'%' password)
+
+windows - in web browser go to ubuntu ip (in fact ubuntu /var/www/html/ folder), select folder with name of site
+
+done

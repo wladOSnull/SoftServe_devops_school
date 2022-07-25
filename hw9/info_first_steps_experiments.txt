@@ -1,0 +1,124 @@
+##### ##### create new SSH key pait for AWS ##### #####
+
+----- on host cli -----
+mkdir hw9 && cd hw9
+ssh-keygen -t rsa -b 2048 
+### write path to folder where key pair will be save and their name "aws_key"
+### skip passphrase ! x2
+
+aws ec2 import-key-pair \
+--key-name "aws_key" \
+--public-key-material file://./aws_key.pub
+
+##### ##### terraform - deploy instance ##### #####
+### in folder "hw9"
+
+touch main.tf
+### add contents
+### check all keys !
+
+terraform init
+terraform plan -out=plan
+terraform apply plan
+
+##### ##### connect to instance ##### #####
+
+----- on AWS profile -----
+visit EC2 > Instances
+select running instance with id from cli output
+visit Connect > SSH client
+copy "Example" of connecting via SSH
+
+----- on cli -----
+ssh -i "aws_key" ubuntu@ec?-??-???-?-??.eu-central-1.compute.amazonaws.com ### something like that
+### !!! delete .pem extention after "aws_key" !
+
+### input "yes" for "Are you sure you want to continue connecting (yes/no/[fingerprint])?"
+### done
+
+----- on AWS instance-----
+sudo apt update
+sudo apt install nginx
+sudo service nginx status
+### sudo service nginx start -(if nginx already didn't start
+
+*****
+sudo ufw status verbose 
+sudo ufw allow ssh
+### !!! if previous command wouldn't execute, SSH coonections will be disrupted
+sudo ufw enable
+sudo ufw allow in "Nginx Full"
+sudo ufw status verbose
+*****
+
+cd /etc/nginx/conf.d/
+touch default.conf
+nano default.conf ###
+### add this contents
+server {
+    listen       80;
+
+    index index.nginx-debian.html;
+
+    location / {
+        root   /var/www/html/;
+    }
+}
+###
+
+sudo netstat -plant | grep 80 -(to check who is listening port
+
+----- on AWS profile -----
+### in "Security", select "Security groups", add new "Inbound rule" for 80 and 443 ports beneath SSH rule
+### visit public IPv4 of instance
+
+
+
+
+
+
+
+
+# terraform apply plan
+# get access string from instance on AWS profile
+
+# mai.tf - add to ingress 80 and 443 ports for Nginx accessability
+---
+ingress                = [
+{
+cidr_blocks      = ["0.0.0.0/0",]
+description      = "for Nginx"
+from_port        = 443
+ipv6_cidr_blocks = []
+prefix_list_ids  = []
+protocol         = "tcp"
+security_groups  = []
+self             = false
+to_port          = 443
+
+
+cidr_blocks      = ["0.0.0.0/0",]
+description      = "for Nginx"
+from_port        = 80
+ipv6_cidr_blocks = []
+prefix_list_ids  = []
+protocol         = "tcp"
+security_groups  = []
+self             = false
+to_port          = 80
+
+
+cidr_blocks      = ["0.0.0.0/0",]
+description      = "for me"
+from_port        = 22
+ipv6_cidr_blocks = []
+prefix_list_ids  = []
+protocol         = "tcp"
+security_groups  = []
+self             = false
+to_port          = 22
+}
+]
+---
+# https://groups.google.com/g/terraform-tool/c/KWBA5B1Zas4
+# the other ones - Ansible))0

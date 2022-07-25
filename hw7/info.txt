@@ -1,0 +1,119 @@
+##### ##### ##### ##### #####
+
+спочатку не зрозумів 1 завдання, тому зробив в 2-ох варіантах (впринципі різниця не велика):
+https://github.com/wladOSnull/my_gitact_hw7.1
+
+завдання із зірочкою:
+https://github.com/wladOSnull/one-html-page-challenge
+
+##### ##### task 7.1.1? ##### ##### 
+
+----- on github -----
+### create new repo on github - my_gitact_hw7.1
+### wladOSnull/my_gitact_hw7.1 -> Actions -> Simple workflow
+### create first.yml
+
+----- on pc -----
+mkdir hw7
+cd hw7
+git clone git@github.com:wladOSnull/my_gitact_hw7.1.git
+
+git config user.email "wlad1324@gmail.com"
+git config user.name "wlados"
+
+touch file.txt
+git status
+git branch branch1
+git checkout branch1
+git status
+git add file.txt
+
+git commit -a -m "add: added new file - file.txt"
+### add name and surname to file.txt
+git commit -a -m "edit: edited file.txt"
+
+git push -u origin branch1
+
+### previous command ran github actions due to workflow_first in first.yml - on:push:branches: [ branch1 ])
+
+##### ##### task 7.1.2? ##### ##### 
+
+----- on pc -----
+git branch
+git checkout main
+
+touch bash_greetings.sh
+touch .github/workflows/second.yml
+
+git status
+git add bash_greetings.sh .github/workflow/second.yml
+git status
+
+git commit -a -m "add: added new files - bash_greetings.sh & second.yml"
+### add contents to bash_greetings.sh and second.yml
+git commit -a -m "edit: added contents to bash_greetings.sh & second.yml"
+
+git push -u origin main
+### previous command ran github actions due to workflow_second in second.yml - on:push:branches: [ main ]
+
+(workflows failure because of - shell script doesn`t have executable permission)
+### change second.yml
+
+git commit -a -m "edit: added permission in second.yml"
+git push -u origin main
+
+### everything's fine now
+
+##### ##### task 7.* ##### #####
+
+----- on github -----
+### fork https://github.com/wladOSnull/one-html-page-challenge
+
+----- on pc -----
+cd hw7
+git clone git@github.com:mentorchita/one-html-page-challenge.git
+
+### visit index.html to check how it works
+
+git config user.email "wlad1324@gmail.com"
+git config user.name "mint_wlados"
+
+cd one-html-page-challenge/entries
+touch aaa_wlados.html
+git add aaa_wlados.html 
+### add contents to aaa_wlados.html
+git commit -a -m "add & edit: added new file - aaa_wlados.html with contents"
+
+cd ../
+### edit entries.js
+git commit -a -m "edit: added new entry for aaa_wlados.html"
+
+git remote set-url origin git@github.com:wladOSnull/one-html-page-challenge.git
+### change URL of origin to MY git repository, because "clone" was done from "mentorchita"
+git remote show origin
+
+git push -u origin master
+
+cd .github
+mkdir workflows
+touch workflows/workflow1.yml
+git add workflows/
+
+### add contents to workflow1.yml
+
+git commit -a -m "addf & add & edit: added folder workflows with file workflow1.yml with contents"
+
+----- on git -----
+### select branch gh-pages (due to workflow1.yml)
+### Settings->Pages set Source and Theme
+### Make any simple/empty commit on gh-pages branch (in some reason, this is need to our GitPage starts work)
+### visit https://wladosnull.github.io/one-html-page-challenge/
+
+##### ##### task 7.* test ##### #####
+
+### add some changes to aaa_wlados.html
+git commit -a -m "edit: edited aaa_wlados.html"
+git push origin master
+
+### a few moments later reload our GitPage - https://wladosnull.github.io/one-html-page-challenge/
+### chan are here

@@ -1,0 +1,41 @@
+##### ##### hw5.*** ##### #####
+
+install docker-compose
+
+mkdir docker2
+cd docker2
+
+touch docker-compose.yml
+(add preset)
+touch default.conf -(for nginx
+(add config)
+
+nano connection.php
+(edit connect to db args)
+
+docker-compose up
+visit http://localhost:8080/
+
+get error - php cannot access db without "mysqli" class
+fix: 
+docker exec -ti docker2_php_1 sh -(for interactive mode
+docker-php-ext-install mysqli -(install "mysqli")
+exit
+
+visit http://localhost:8080/
+
+get error - no database selected (of course lol)
+docker exec -ti docker2_db_1 sh -(for interactive mode
+/bin/bash -c "mysql -u root -pblood_pass bloodbank < /bloodbank.sql"
+exit
+
+visit http://localhost:8080/
+
+#####
+
+намагався автоматизувати наступні документи через Dockerfile:
+
+docker-php-ext-install mysqli - для php
+/bin/bash -c "mysql -u root -pblood_pass bloodbank < /bloodbank.sql" - для mysql
+
+не працює, не можу розібратись

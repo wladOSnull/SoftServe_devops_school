@@ -1,0 +1,32 @@
+scheme 16.
+
+tree_patern=" \
+Boreiko/{\
+VARD/GR1,\
+VARE,\
+VARF/GR2\
+}"
+
+Boreiko/{VARD/GR1,VARE,VARF/GR2}
+
+scheme 18.
+
+tree_patern=" \
+Boreiko/{\
+VARR,\
+VARS,\
+VART/{GR1,GR2}\
+}"
+
+mkdir -p Boreiko/{VARR,VARS,VART/{GR1,GR2}}
+
+scheme 5.
+
+tree_patern=" \
+Boreiko/{\
+KKK/{GR1,GR2},\
+LLL,\
+MM\
+}"
+
+mkdir -p Boreiko/{KKK/{GR1,GR2},LLL,MM}

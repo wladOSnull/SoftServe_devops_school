@@ -1,0 +1,6 @@
+##### ##### shell script ##### #####
+
+touch python_duration.py
+nano python_duration.py
+
+python3.8 ./python_duration.py

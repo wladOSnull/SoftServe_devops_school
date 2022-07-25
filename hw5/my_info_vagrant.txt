@@ -1,0 +1,14 @@
+-for new vm-
+vagrant init hashicorp/bionic64
+vagrant up
+vagrant ssh
+vagrant destroy
+
+-info-
+vagrant global-status
+vagrant status
+vagrant box list
+
+##### ##### ##### ##### #####
+
+

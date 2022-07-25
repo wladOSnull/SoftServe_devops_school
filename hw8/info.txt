@@ -1,0 +1,54 @@
+##### ##### install terraform ##### #####
+curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+sudo apt update
+sudo apt install terraform
+
+##### ##### install go ##### #####
+### download tar ball from https://go.dev/dl/
+### unpack to /usr/bin/
+export PATH=$PATH:/usr/local/go/bin
+
+##### ##### check all tools ##### #####
+go --version
+vagrant --version
+terraform --version
+virtualboxvm --help
+
+##### ##### compile and install terraform plugin for vmbox ##### #####
+cd Downloads
+git clone git@github.com:terra-farm/terraform-provider-virtualbox.git
+cd terraform-provider-virtualbox
+
+go build
+### copy output binary file (terraform-provider-virtualbox) to ~/.terraform.d for globaly using of this plugin
+
+##### ##### run the simple terraform project ##### #####
+cd Documents
+mkdir -p hw8/terraform_vmbox && cd hw8/terraform_vmbox
+touch main.tf
+### add contents to main.tf from runbook
+### edit host interface ==> host_interface="wlp0s20f3", because of running this machines on Linux OS
+
+terraform init
+terraform validate
+terraform plan -out=plan_out
+terraform apply plan_out
+
+### check accessability to vms
+ping 192.168.0.***
+ping 192.168.0.***
+
+### get private key from git repo of plugin https://github.com/hashicorp/vagrant/tree/master/keys
+
+touch key
+nano key ### add private key into this file
+chmod 600 ./key
+
+ssh -i ./key vagrant@192.168.0.*** ### connect via ssh to first vm
+hostname -I
+
+ssh -i ./key vagrant@192.168.0.*** ### connect via ssh to second vm
+hostname -I
+
+terraform destroy

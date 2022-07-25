@@ -1,0 +1,113 @@
+#####
+##### https://devcenter.heroku.com/articles/getting-started-with-ruby
+#####
+
+##### ##### installing rvm + ruby 2.5 (by rvm) ##### #####
+https://rvm.io/rvm/install
+rvm install ruby-2.0.0
+rvm install ruby-2.5.9
+rvm install ruby-2.6.0
+rvm use --default 2.6.0
+rvm list rubies
+
+gem install bundler
+
+##### ##### installing snap + heroku (by snap) ##### #####
+
+sudo rm /etc/apt/preferences.d/nosnap.pref
+sudo apt update
+sudo apt install snapd
+
+sudo snap install heroku --classic
+heroku --version
+heroku login ### login in web browser into available free account
+heroku whoami ### to check current logged in account
+
+##### ##### demo project - getting started ##### #####
+cd hw10
+git clone https://github.com/heroku/ruby-getting-started.git
+cd ruby-getting-started
+
+heroku create
+### visit outputted web site
+
+git push heroku main
+heroku open
+
+heroku logs --tail
+ctrl+c
+
+heroku ps:scale web=0
+heroku ps:scale web=1
+
+bundle install
+sudo apt-get install libpq-dev
+bundle install
+
+----- installing postresql for local version of heroku demo site -----
+sudo apt update && sudo apt install postgres
+service postgres status
+sudo -i-u postgres
+psql
+CREATE USER wlados WITH PASSWORD '';
+ALTER USER wlados CREATEDB;
+\du ### list of roles/users
+\q
+ctrl+d
+
+psql -d postgres -U wlados ### checking accesssability psql DBs for new user: wlados
+\du ### list of roles/users
+\q
+----- ----- ----- ----- -----
+
+bundle exec rake db:create db:migrate
+heroku local web
+### visit ip:port from output
+ctrl+c ### x2
+
+### edit Gemfile ...
+### edit index.erb ...
+bundle install
+heroku local
+### visit ip:port from output
+ctrl+c ### x2
+
+git add .
+git config user.email "<email...>"
+git config user.name "<name...>"
+git commit -m "Demo"
+git push heroku main
+heroku open
+
+heroku addons:create papertrail
+### due to warning -> Heroku profile -> add billing method (card)
+heroku addons:create papertrail
+heroku addons
+heroku addons:open papertrail
+
+heroku run rails console
+puts Cowsay.say("hi","Cow")
+exit
+
+heroku run bash
+ls ### to output files of demo project
+exit
+
+### edit app/views/welcome/index.erb for using TIMES variable
+heroku localhttps://boiling-coast-69333.herokuapp.com
+### visit site to see changes
+
+heroku config:set TIMES=10https://devcenter.heroku.com/articles/getting-started-with-ruby
+heroku config ### to see setted variables of demo project
+
+https://boiling-coast-69333.herokuapp.com/widgets ### visit this site and get error, because of missing relation "widgets"
+heroku run db:migrate
+### visit again, error dissapeared
+### add any widget
+heroku pg:psql
+select * from widgets; ### to output new created widget
+\q
+
+#####
+##### https://boiling-coast-69333.herokuapp.com
+#####
